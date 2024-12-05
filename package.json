@@ -30,7 +30,8 @@
     "split.js",
     "utils.js",
     "witness.js",
-    "witness.d.ts"
+    "witness.d.ts",
+    "third-party/**"
   ],
   "main": "index.js",
   "types": "index.d.ts",
