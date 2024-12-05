@@ -12,7 +12,7 @@ function inputBytes (input) {
 
 function outputBytes (output) {
   if (output.script) {
-    return OP_RETURN_OVERHEAD + output.script.length + (output.script.length >= 74 ? 2 : 1);
+    return OP_RETURN_OVERHEAD + output.script.length + (output.script.length >= 74 ? 2 : 1)
   }
   return TX_OUTPUT_BASE + (output.script ? output.script.length : TX_OUTPUT_PUBKEYHASH)
 }

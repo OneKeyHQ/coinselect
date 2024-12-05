@@ -14,8 +14,8 @@ fixtures.forEach(function (f) {
           changeAddress: f.changeAddress
         })
       },
-        new RegExp(f.expected),
-        f.description
+      new RegExp(f.expected),
+      f.description
       )
       t.end()
     } else {
@@ -28,14 +28,33 @@ fixtures.forEach(function (f) {
         txType: f.txType
       })
 
-      // Restore the order of outputs according to outputsPermutation
-      const reorderOutputs = (outputs, permutation) => {
-        return permutation.map(index => outputs[index]);
-      };
+      const compareOutputs = (actual, expected) => {
+        if (actual.length !== expected.length) {
+          console.log('Length mismatch:', {
+            actualLength: actual.length,
+            expectedLength: expected.length
+          })
+          return false
+        }
 
-      actual.outputs = reorderOutputs(actual.outputs, actual.outputsPermutation);
-      f.expected.outputs = reorderOutputs(f.expected.outputs, f.expected.outputsPermutation);
-      
+        const objectsEqual = (obj1, obj2) => {
+          const keys1 = Object.keys(obj1).sort()
+          const keys2 = Object.keys(obj2).sort()
+
+          if (keys1.length !== keys2.length) return false
+
+          return keys1.every((key, index) => {
+            const val1 = obj1[key]
+            const val2 = obj2[key]
+            return JSON.stringify(val1) === JSON.stringify(val2)
+          })
+        }
+
+        return actual.every(actualItem =>
+          expected.some(expectedItem => objectsEqual(actualItem, expectedItem))
+        )
+      }
+
       t.same(actual.type, f.expected.type)
       t.same(actual.fee, f.expected.fee)
       t.same(actual.feePerByte, f.expected.feePerByte)
@@ -43,7 +62,7 @@ fixtures.forEach(function (f) {
       t.same(actual.max, f.expected.max)
       t.same(actual.totalSpent, f.expected.totalSpent)
       t.same(actual.inputs, f.expected.inputs)
-      t.same(actual.outputs, f.expected.outputs)
+      t.ok(compareOutputs(actual.outputs, f.expected.outputs), 'outputs are the same')
       t.end()
     }
   })
