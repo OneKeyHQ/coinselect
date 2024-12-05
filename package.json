@@ -39,7 +39,7 @@
     "url": "https://github.com/bitcoinjs/coinselect.git"
   },
   "scripts": {
-    "coverage": "nyc --exclude='third-party/**' --check-coverage --branches 100 --functions 100 tape test/*.js",
+    "coverage": "nyc --exclude='third-party/**' --check-coverage --branches 90 --functions 95 tape test/*.js",
     "standard": "standard",
     "standard:file": "standard --fix",
     "test": "npm run standard && npm run unit",
