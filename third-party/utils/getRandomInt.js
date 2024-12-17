@@ -22,12 +22,22 @@ const getRandomInt = (min, max) => {
         ? (array) => {
             console.log('coinselect debug: 2')
             console.log('Using window.crypto.getRandomValues');
-            return window.crypto.getRandomValues(array);
+            try {
+                return window.crypto.getRandomValues(array);
+            } catch (e) {
+                console.error('Window crypto error:', e);
+                throw e;
+            }
           }
         : (array) => {
             console.log('coinselect debug: 3')
             console.log('Using Node.js crypto.getRandomValues');
-            return (0, crypto_1.getRandomValues)(array);
+            try {
+                return (0, crypto_1.getRandomValues)(array);
+            } catch (e) {
+                console.error('Node crypto error:', e);
+                throw e;
+            }
           };
     console.log('coinselect debug: 4')
     const array = new Uint32Array(1);
