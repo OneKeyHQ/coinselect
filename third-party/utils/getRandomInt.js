@@ -18,8 +18,31 @@ const getRandomInt = (min, max) => {
         throw new RangeError(`This function only provide 32 bits of entropy, therefore range cannot be more then 2^32.`);
     }
     const getRandomValues = typeof window !== 'undefined'
-        ? (array) => window.crypto.getRandomValues(array)
-        : (array) => (0, crypto_1.getRandomValues)(array);
+        ? (array) => {
+            try {
+                return window.crypto.getRandomValues(array);
+            } catch (e) {
+                console.error('Window crypto error:', e);
+                throw e;
+            }
+        }
+        : typeof self !== 'undefined'
+            ? (array) => {
+                try {
+                    return self.crypto.getRandomValues(array);
+                } catch (e) {
+                    console.error('Self crypto error:', e);
+                    throw e;
+                }
+            }
+            : (array) => {
+                try {
+                    return (0, crypto_1.getRandomValues)(array);
+                } catch (e) {
+                    console.error('Node crypto error:', e);
+                    throw e;
+                }
+            };
     const array = new Uint32Array(1);
     const maxRange = MAX_RANGE_32_BITS - (MAX_RANGE_32_BITS % range);
     let randomValue;
