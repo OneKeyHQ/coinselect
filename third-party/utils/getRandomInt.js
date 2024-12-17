@@ -19,37 +19,37 @@ const getRandomInt = (min, max) => {
     }
     console.log('coinselect debug: 1')
     const getRandomValues = typeof window !== 'undefined'
-    ? (array) => {
-        console.log('coinselect debug: 2.5')
-        console.log('Using window.crypto.getRandomValues');
-        try {
-            return window.crypto.getRandomValues(array);
-        } catch (e) {
-            console.error('Window crypto error:', e);
-            throw e;
-        }
-      }
-      ? typeof self !== 'undefined'
         ? (array) => {
-            console.log('coinselect debug: 2')
-            console.log('Using self.crypto.getRandomValues');
+            console.log('coinselect debug: 2.5');
+            console.log('Using window.crypto.getRandomValues');
             try {
-                return self.crypto.getRandomValues(array);
+                return window.crypto.getRandomValues(array);
             } catch (e) {
-                console.error('Self crypto error:', e);
+                console.error('Window crypto error:', e);
                 throw e;
             }
-          }
-        : (array) => {
-            console.log('coinselect debug: 3')
-            console.log('Using Node.js crypto.getRandomValues');
-            try {
-                return (0, crypto_1.getRandomValues)(array);
-            } catch (e) {
-                console.error('Node crypto error:', e);
-                throw e;
+        }
+        : typeof self !== 'undefined'
+            ? (array) => {
+                console.log('coinselect debug: 2');
+                console.log('Using self.crypto.getRandomValues');
+                try {
+                    return self.crypto.getRandomValues(array);
+                } catch (e) {
+                    console.error('Self crypto error:', e);
+                    throw e;
+                }
             }
-          };
+            : (array) => {
+                console.log('coinselect debug: 3');
+                console.log('Using Node.js crypto.getRandomValues');
+                try {
+                    return (0, crypto_1.getRandomValues)(array);
+                } catch (e) {
+                    console.error('Node crypto error:', e);
+                    throw e;
+                }
+            };
     console.log('coinselect debug: 4')
     const array = new Uint32Array(1);
     const maxRange = MAX_RANGE_32_BITS - (MAX_RANGE_32_BITS % range);
