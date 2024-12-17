@@ -17,11 +17,8 @@ const getRandomInt = (min, max) => {
     if (range > MAX_RANGE_32_BITS) {
         throw new RangeError(`This function only provide 32 bits of entropy, therefore range cannot be more then 2^32.`);
     }
-    console.log('coinselect debug: 1')
     const getRandomValues = typeof window !== 'undefined'
         ? (array) => {
-            console.log('coinselect debug: 2.5');
-            console.log('Using window.crypto.getRandomValues');
             try {
                 return window.crypto.getRandomValues(array);
             } catch (e) {
@@ -31,8 +28,6 @@ const getRandomInt = (min, max) => {
         }
         : typeof self !== 'undefined'
             ? (array) => {
-                console.log('coinselect debug: 2');
-                console.log('Using self.crypto.getRandomValues');
                 try {
                     return self.crypto.getRandomValues(array);
                 } catch (e) {
@@ -41,8 +36,6 @@ const getRandomInt = (min, max) => {
                 }
             }
             : (array) => {
-                console.log('coinselect debug: 3');
-                console.log('Using Node.js crypto.getRandomValues');
                 try {
                     return (0, crypto_1.getRandomValues)(array);
                 } catch (e) {
@@ -50,16 +43,13 @@ const getRandomInt = (min, max) => {
                     throw e;
                 }
             };
-    console.log('coinselect debug: 4')
     const array = new Uint32Array(1);
     const maxRange = MAX_RANGE_32_BITS - (MAX_RANGE_32_BITS % range);
     let randomValue;
     do {
-        console.log('coinselect debug: 5')
         getRandomValues(array);
         randomValue = array[0];
     } while (randomValue >= maxRange);
-    console.log('coinselect debug: 6')
     return min + (randomValue % range);
 };
 exports.getRandomInt = getRandomInt;
