@@ -18,7 +18,18 @@ const getRandomInt = (min, max) => {
         throw new RangeError(`This function only provide 32 bits of entropy, therefore range cannot be more then 2^32.`);
     }
     console.log('coinselect debug: 1')
-    const getRandomValues = typeof self !== 'undefined'
+    const getRandomValues = typeof window !== 'undefined'
+    ? (array) => {
+        console.log('coinselect debug: 2.5')
+        console.log('Using window.crypto.getRandomValues');
+        try {
+            return window.crypto.getRandomValues(array);
+        } catch (e) {
+            console.error('Window crypto error:', e);
+            throw e;
+        }
+      }
+      ? typeof self !== 'undefined'
         ? (array) => {
             console.log('coinselect debug: 2')
             console.log('Using self.crypto.getRandomValues');
@@ -26,17 +37,6 @@ const getRandomInt = (min, max) => {
                 return self.crypto.getRandomValues(array);
             } catch (e) {
                 console.error('Self crypto error:', e);
-                throw e;
-            }
-          }
-        : typeof window !== 'undefined'
-        ? (array) => {
-            console.log('coinselect debug: 2.5')
-            console.log('Using window.crypto.getRandomValues');
-            try {
-                return window.crypto.getRandomValues(array);
-            } catch (e) {
-                console.error('Window crypto error:', e);
                 throw e;
             }
           }
