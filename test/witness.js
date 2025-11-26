@@ -25,8 +25,7 @@ fixtures.forEach(function (f) {
         feeRate: f.feeRate,
         network: f.network,
         changeAddress: f.changeAddress,
-        txType: f.txType,
-        skipUtxoSelection: f.skipUtxoSelection
+        txType: f.txType
       })
 
       const compareOutputs = (actual, expected) => {

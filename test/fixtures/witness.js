@@ -366,38 +366,90 @@ const fixtures = [
     shouldThrow: false
   },
   {
-    description: 'skipUtxoSelection - coin control with specific inputs',
+    description: 'required utxo - only required UTXOs are selected for small payment',
     feeRate: 10,
     inputs: [
+      // UTXO 1: large, not required - should NOT be selected
       {
-        txId: 'f46689066ac0493cc55920c3918163ccda6c64998d6c078c6254e1c00c36a332',
+        txId: 'utxo1_large_not_required',
         vout: 0,
-        value: 50000,
-        amount: '50000',
+        value: 100000,
+        amount: '100000',
         confirmations: 100,
         own: true,
         coinbase: false,
         address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
         path: "m/84'/1'/0'/0/0"
       },
+      // UTXO 2: small, required - MUST be selected
       {
-        txId: 'a88d1066ac0493cc55920c3918163ccda6c64998d6c078c6254e1c00c36a332',
-        vout: 1,
-        value: 30000,
-        amount: '30000',
+        txId: 'utxo2_small_required',
+        vout: 0,
+        value: 5000,
+        amount: '5000',
         confirmations: 200,
         own: true,
         coinbase: false,
         address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
-        path: "m/84'/1'/0'/0/0"
+        path: "m/84'/1'/0'/0/1",
+        required: true
+      },
+      // UTXO 3: medium, not required - should NOT be selected
+      {
+        txId: 'utxo3_medium_not_required',
+        vout: 1,
+        value: 30000,
+        amount: '30000',
+        confirmations: 150,
+        own: true,
+        coinbase: false,
+        address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+        path: "m/84'/1'/0'/0/2"
+      },
+      // UTXO 4: small, required - MUST be selected
+      {
+        txId: 'utxo4_small_required',
+        vout: 2,
+        value: 3000,
+        amount: '3000',
+        confirmations: 300,
+        own: true,
+        coinbase: false,
+        address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+        path: "m/84'/1'/0'/0/3",
+        required: true
+      },
+      // UTXO 5: small, not required - should NOT be selected
+      {
+        txId: 'utxo5_small_not_required',
+        vout: 0,
+        value: 2000,
+        amount: '2000',
+        confirmations: 50,
+        own: true,
+        coinbase: false,
+        address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+        path: "m/84'/1'/0'/0/4"
+      },
+      // UTXO 6: medium, not required - should NOT be selected
+      {
+        txId: 'utxo6_medium_not_required',
+        vout: 1,
+        value: 20000,
+        amount: '20000',
+        confirmations: 80,
+        own: true,
+        coinbase: false,
+        address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+        path: "m/84'/1'/0'/0/5"
       }
     ],
     outputs: [
       {
         type: 'payment',
         address: 'tb1quawu6eyfuechu3qhdeejnrzne9y7shr08u8zzt',
-        value: 60000,
-        amount: '60000'
+        value: 1000,
+        amount: '1000'
       }
     ],
     network: testnet,
@@ -406,50 +458,51 @@ const fixtures = [
       path: "m/84'/1'/0'/0/0"
     },
     txType: 'p2wpkh',
-    skipUtxoSelection: true,
     expected: {
       type: 'final',
       fee: '2090',
       feePerByte: '10',
       bytes: 209,
       max: undefined,
-      totalSpent: '62090',
+      totalSpent: '3090',
       inputs: [
         {
-          txId: 'a88d1066ac0493cc55920c3918163ccda6c64998d6c078c6254e1c00c36a332',
-          vout: 1,
-          value: 30000,
+          txId: 'utxo2_small_required',
+          vout: 0,
+          value: 5000,
           confirmations: 200,
           own: true,
           address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
-          path: "m/84'/1'/0'/0/0",
+          path: "m/84'/1'/0'/0/1",
           coinbase: false,
-          amount: '30000'
+          amount: '5000',
+          required: true
         },
         {
-          txId: 'f46689066ac0493cc55920c3918163ccda6c64998d6c078c6254e1c00c36a332',
-          vout: 0,
-          value: 50000,
-          confirmations: 100,
+          txId: 'utxo4_small_required',
+          vout: 2,
+          value: 3000,
+          confirmations: 300,
           own: true,
           address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
-          path: "m/84'/1'/0'/0/0",
+          path: "m/84'/1'/0'/0/3",
           coinbase: false,
-          amount: '50000'
+          amount: '3000',
+          required: true
         }
       ],
       outputs: [
         {
           type: 'payment',
           address: 'tb1quawu6eyfuechu3qhdeejnrzne9y7shr08u8zzt',
-          value: 60000,
-          amount: '60000'
+          value: 1000,
+          amount: '1000'
         },
         {
           type: 'change',
           address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
           path: "m/84'/1'/0'/0/0",
-          amount: '17910'
+          amount: '4910'
         }
       ],
       outputsPermutation: [0, 1]

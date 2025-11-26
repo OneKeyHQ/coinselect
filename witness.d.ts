@@ -6,6 +6,7 @@ export interface IUtxo {
     coinbase: boolean;
     own: boolean;
     confirmations: number;
+    required?: boolean;
 }
 
 export interface IOutputPayment {

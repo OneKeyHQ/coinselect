@@ -8,8 +8,7 @@ module.exports = function coinSelect ({
   network,
   txType,
   baseFee = 0,
-  dustThreshold = 546,
-  skipUtxoSelection = false
+  dustThreshold = 546
 }) {
   const result = composeTx({
     utxos,
@@ -20,8 +19,7 @@ module.exports = function coinSelect ({
     dustThreshold,
     changeAddress,
     network,
-    baseFee,
-    skipUtxoSelection
+    baseFee
   })
 
   if (result.type === 'error') {
