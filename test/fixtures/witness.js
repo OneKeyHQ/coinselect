@@ -364,6 +364,97 @@ const fixtures = [
       outputsPermutation: [0]
     },
     shouldThrow: false
+  },
+  {
+    description: 'skipUtxoSelection - coin control with specific inputs',
+    feeRate: 10,
+    inputs: [
+      {
+        txId: 'f46689066ac0493cc55920c3918163ccda6c64998d6c078c6254e1c00c36a332',
+        vout: 0,
+        value: 50000,
+        amount: '50000',
+        confirmations: 100,
+        own: true,
+        coinbase: false,
+        address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+        path: "m/84'/1'/0'/0/0"
+      },
+      {
+        txId: 'a88d1066ac0493cc55920c3918163ccda6c64998d6c078c6254e1c00c36a332',
+        vout: 1,
+        value: 30000,
+        amount: '30000',
+        confirmations: 200,
+        own: true,
+        coinbase: false,
+        address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+        path: "m/84'/1'/0'/0/0"
+      }
+    ],
+    outputs: [
+      {
+        type: 'payment',
+        address: 'tb1quawu6eyfuechu3qhdeejnrzne9y7shr08u8zzt',
+        value: 60000,
+        amount: '60000'
+      }
+    ],
+    network: testnet,
+    changeAddress: {
+      address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+      path: "m/84'/1'/0'/0/0"
+    },
+    txType: 'p2wpkh',
+    skipUtxoSelection: true,
+    expected: {
+      type: 'final',
+      fee: '2090',
+      feePerByte: '10',
+      bytes: 209,
+      max: undefined,
+      totalSpent: '62090',
+      inputs: [
+        {
+          txId: 'a88d1066ac0493cc55920c3918163ccda6c64998d6c078c6254e1c00c36a332',
+          vout: 1,
+          value: 30000,
+          confirmations: 200,
+          own: true,
+          address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+          path: "m/84'/1'/0'/0/0",
+          coinbase: false,
+          amount: '30000'
+        },
+        {
+          txId: 'f46689066ac0493cc55920c3918163ccda6c64998d6c078c6254e1c00c36a332',
+          vout: 0,
+          value: 50000,
+          confirmations: 100,
+          own: true,
+          address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+          path: "m/84'/1'/0'/0/0",
+          coinbase: false,
+          amount: '50000'
+        }
+      ],
+      outputs: [
+        {
+          type: 'payment',
+          address: 'tb1quawu6eyfuechu3qhdeejnrzne9y7shr08u8zzt',
+          value: 60000,
+          amount: '60000'
+        },
+        {
+          type: 'change',
+          address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+          path: "m/84'/1'/0'/0/0",
+          amount: '17910'
+        }
+      ],
+      outputsPermutation: [0, 1]
+    },
+    shouldThrow: false
   }
 ]
 

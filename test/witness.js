@@ -25,7 +25,8 @@ fixtures.forEach(function (f) {
         feeRate: f.feeRate,
         network: f.network,
         changeAddress: f.changeAddress,
-        txType: f.txType
+        txType: f.txType,
+        skipUtxoSelection: f.skipUtxoSelection
       })
 
       const compareOutputs = (actual, expected) => {
@@ -61,7 +62,7 @@ fixtures.forEach(function (f) {
       t.same(actual.bytes, f.expected.bytes)
       t.same(actual.max, f.expected.max)
       t.same(actual.totalSpent, f.expected.totalSpent)
-      t.same(actual.inputs, f.expected.inputs)
+      t.ok(compareOutputs(actual.inputs, f.expected.inputs), 'inputs are the same')
       t.ok(compareOutputs(actual.outputs, f.expected.outputs), 'outputs are the same')
       t.end()
     }
