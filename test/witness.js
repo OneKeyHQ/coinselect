@@ -25,7 +25,8 @@ fixtures.forEach(function (f) {
         feeRate: f.feeRate,
         network: f.network,
         changeAddress: f.changeAddress,
-        txType: f.txType
+        txType: f.txType,
+        sortingStrategy: f.sortingStrategy
       })
 
       const compareOutputs = (actual, expected) => {
@@ -63,6 +64,19 @@ fixtures.forEach(function (f) {
       t.same(actual.totalSpent, f.expected.totalSpent)
       t.ok(compareOutputs(actual.inputs, f.expected.inputs), 'inputs are the same')
       t.ok(compareOutputs(actual.outputs, f.expected.outputs), 'outputs are the same')
+
+      // For deterministic strategies, also verify ordering
+      if (f.sortingStrategy === 'none' || f.sortingStrategy === 'bip69') {
+        var txIdKey = f.sortingStrategy === 'bip69' ? 'txid' : 'txId'
+        t.same(
+          actual.inputs.map(function (i) { return i[txIdKey] }),
+          f.expected.inputs.map(function (i) { return i[txIdKey] }),
+          'input order matches expected for ' + f.sortingStrategy + ' strategy'
+        )
+        t.same(actual.outputsPermutation, f.expected.outputsPermutation,
+          'outputsPermutation matches for ' + f.sortingStrategy + ' strategy')
+      }
+
       t.end()
     }
   })
