@@ -8,13 +8,14 @@ module.exports = function coinSelect ({
   network,
   txType,
   baseFee = 0,
-  dustThreshold = 546
+  dustThreshold = 546,
+  sortingStrategy = 'random'
 }) {
   const result = composeTx({
     utxos,
     outputs,
     feeRate,
-    sortingStrategy: 'random',
+    sortingStrategy,
     txType,
     dustThreshold,
     changeAddress,

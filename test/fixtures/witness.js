@@ -508,6 +508,290 @@ const fixtures = [
       outputsPermutation: [0, 1]
     },
     shouldThrow: false
+  },
+  {
+    description: 'sortingStrategy none - preserves original input/output order',
+    feeRate: 10,
+    sortingStrategy: 'none',
+    inputs: [
+      {
+        txId: 'bbbb_second_in_bip69',
+        vout: 0,
+        value: 5000,
+        amount: '5000',
+        confirmations: 200,
+        own: true,
+        coinbase: false,
+        address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+        path: "m/84'/1'/0'/0/0",
+        required: true
+      },
+      {
+        txId: 'aaaa_first_in_bip69',
+        vout: 0,
+        value: 3000,
+        amount: '3000',
+        confirmations: 300,
+        own: true,
+        coinbase: false,
+        address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+        path: "m/84'/1'/0'/0/1",
+        required: true
+      }
+    ],
+    outputs: [
+      {
+        type: 'payment',
+        address: 'tb1quawu6eyfuechu3qhdeejnrzne9y7shr08u8zzt',
+        value: 1000,
+        amount: '1000'
+      }
+    ],
+    network: testnet,
+    changeAddress: {
+      address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+      path: "m/84'/1'/0'/0/0"
+    },
+    txType: 'p2wpkh',
+    expected: {
+      type: 'final',
+      fee: '2090',
+      feePerByte: '10',
+      bytes: 209,
+      max: undefined,
+      totalSpent: '3090',
+      inputs: [
+        {
+          txId: 'bbbb_second_in_bip69',
+          vout: 0,
+          value: 5000,
+          confirmations: 200,
+          own: true,
+          address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+          path: "m/84'/1'/0'/0/0",
+          coinbase: false,
+          amount: '5000',
+          required: true
+        },
+        {
+          txId: 'aaaa_first_in_bip69',
+          vout: 0,
+          value: 3000,
+          confirmations: 300,
+          own: true,
+          address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+          path: "m/84'/1'/0'/0/1",
+          coinbase: false,
+          amount: '3000',
+          required: true
+        }
+      ],
+      outputs: [
+        {
+          type: 'payment',
+          address: 'tb1quawu6eyfuechu3qhdeejnrzne9y7shr08u8zzt',
+          value: 1000,
+          amount: '1000'
+        },
+        {
+          type: 'change',
+          address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+          path: "m/84'/1'/0'/0/0",
+          amount: '4910'
+        }
+      ],
+      outputsPermutation: [0, 1]
+    },
+    shouldThrow: false
+  },
+  {
+    description: 'sortingStrategy bip69 - sorts inputs by txid and outputs by value',
+    feeRate: 10,
+    sortingStrategy: 'bip69',
+    inputs: [
+      {
+        txid: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+        vout: 0,
+        value: 5000,
+        amount: '5000',
+        confirmations: 200,
+        own: true,
+        coinbase: false,
+        address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+        path: "m/84'/1'/0'/0/0",
+        required: true
+      },
+      {
+        txid: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        vout: 0,
+        value: 3000,
+        amount: '3000',
+        confirmations: 300,
+        own: true,
+        coinbase: false,
+        address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+        path: "m/84'/1'/0'/0/1",
+        required: true
+      }
+    ],
+    outputs: [
+      {
+        type: 'payment',
+        address: 'tb1quawu6eyfuechu3qhdeejnrzne9y7shr08u8zzt',
+        value: 1000,
+        amount: '1000'
+      }
+    ],
+    network: testnet,
+    changeAddress: {
+      address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+      path: "m/84'/1'/0'/0/0"
+    },
+    txType: 'p2wpkh',
+    expected: {
+      type: 'final',
+      fee: '2090',
+      feePerByte: '10',
+      bytes: 209,
+      max: undefined,
+      totalSpent: '3090',
+      inputs: [
+        {
+          txid: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+          vout: 0,
+          value: 3000,
+          confirmations: 300,
+          own: true,
+          address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+          path: "m/84'/1'/0'/0/1",
+          coinbase: false,
+          amount: '3000',
+          required: true
+        },
+        {
+          txid: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+          vout: 0,
+          value: 5000,
+          confirmations: 200,
+          own: true,
+          address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+          path: "m/84'/1'/0'/0/0",
+          coinbase: false,
+          amount: '5000',
+          required: true
+        }
+      ],
+      outputs: [
+        {
+          type: 'payment',
+          address: 'tb1quawu6eyfuechu3qhdeejnrzne9y7shr08u8zzt',
+          value: 1000,
+          amount: '1000'
+        },
+        {
+          type: 'change',
+          address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+          path: "m/84'/1'/0'/0/0",
+          amount: '4910'
+        }
+      ],
+      outputsPermutation: [0, 1]
+    },
+    shouldThrow: false
+  },
+  {
+    description: 'sortingStrategy random (default) - produces valid result with shuffled order',
+    feeRate: 10,
+    inputs: [
+      {
+        txId: 'bbbb_second_in_bip69',
+        vout: 0,
+        value: 5000,
+        amount: '5000',
+        confirmations: 200,
+        own: true,
+        coinbase: false,
+        address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+        path: "m/84'/1'/0'/0/0",
+        required: true
+      },
+      {
+        txId: 'aaaa_first_in_bip69',
+        vout: 0,
+        value: 3000,
+        amount: '3000',
+        confirmations: 300,
+        own: true,
+        coinbase: false,
+        address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+        path: "m/84'/1'/0'/0/1",
+        required: true
+      }
+    ],
+    outputs: [
+      {
+        type: 'payment',
+        address: 'tb1quawu6eyfuechu3qhdeejnrzne9y7shr08u8zzt',
+        value: 1000,
+        amount: '1000'
+      }
+    ],
+    network: testnet,
+    changeAddress: {
+      address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+      path: "m/84'/1'/0'/0/0"
+    },
+    txType: 'p2wpkh',
+    expected: {
+      type: 'final',
+      fee: '2090',
+      feePerByte: '10',
+      bytes: 209,
+      max: undefined,
+      totalSpent: '3090',
+      inputs: [
+        {
+          txId: 'bbbb_second_in_bip69',
+          vout: 0,
+          value: 5000,
+          confirmations: 200,
+          own: true,
+          address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+          path: "m/84'/1'/0'/0/0",
+          coinbase: false,
+          amount: '5000',
+          required: true
+        },
+        {
+          txId: 'aaaa_first_in_bip69',
+          vout: 0,
+          value: 3000,
+          confirmations: 300,
+          own: true,
+          address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+          path: "m/84'/1'/0'/0/1",
+          coinbase: false,
+          amount: '3000',
+          required: true
+        }
+      ],
+      outputs: [
+        {
+          type: 'payment',
+          address: 'tb1quawu6eyfuechu3qhdeejnrzne9y7shr08u8zzt',
+          value: 1000,
+          amount: '1000'
+        },
+        {
+          type: 'change',
+          address: 'tb1qul5mzh5phe7xqyqek0nl42hflfrn7ugxck59jd',
+          path: "m/84'/1'/0'/0/0",
+          amount: '4910'
+        }
+      ],
+      outputsPermutation: [0, 1]
+    },
+    shouldThrow: false
   }
 ]
 

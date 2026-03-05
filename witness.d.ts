@@ -51,6 +51,7 @@ export interface ICoinSelectParams {
     txType: IPaymentType
     baseFee?: number;
     dustThreshold?: number;
+    sortingStrategy?: 'bip69' | 'none' | 'random';
 }
 
 export interface ICoinSelectResult {
