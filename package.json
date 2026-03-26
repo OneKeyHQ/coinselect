@@ -1,6 +1,6 @@
 {
   "name": "@onekeyfe/coinselect",
-  "version": "3.1.17",
+  "version": "3.1.18",
   "description": "A transaction input selection module for bitcoin.",
   "keywords": [
     "coinselect",
@@ -16,9 +16,9 @@
     "optimizing",
     "bitcoin"
   ],
-  "homepage": "https://github.com/bitcoinjs/coinselect",
+  "homepage": "https://github.com/OneKeyHQ/coinselect",
   "bugs": {
-    "url": "https://github.com/bitcoinjs/coinselect/issues"
+    "url": "https://github.com/OneKeyHQ/coinselect/issues"
   },
   "license": "MIT",
   "author": "Daniel Cousens",
@@ -37,7 +37,7 @@
   "types": "index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bitcoinjs/coinselect.git"
+    "url": "https://github.com/OneKeyHQ/coinselect.git"
   },
   "scripts": {
     "coverage": "nyc --exclude='third-party/**' --check-coverage --branches 90 --functions 95 tape test/*.js",
